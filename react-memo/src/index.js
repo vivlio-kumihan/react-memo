@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom'
 import App from './App'
 import './index.css'
 
+// // case CLASS COMPORNENT
 // class App extends Component {
 //   render() {
 //     const name = "takahiro"
