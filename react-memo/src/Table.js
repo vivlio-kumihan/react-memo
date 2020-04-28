@@ -6,7 +6,7 @@ const TableHeader = () => {
       <tr>
         <th>Name</th>
         <th>Job</th>
-        <th>Edit</th>
+        <th>Delete</th>
       </tr>
     </thead>
   )
@@ -25,11 +25,11 @@ const TableBody = props => {
       </tr>
     )
   })
-  return <tbody>{rows}</tbody>
+  return <tbody>{rows}</tbody>;
 }
 
-const Table = props => {
-  const { characterData, removeCharacter } = props
+const Table = (props) => {
+  const { characterData, removeCharacter } = props;
   return (
     <table>
       <TableHeader />
@@ -40,6 +40,7 @@ const Table = props => {
   )
 }
 
+export default Table
 
 // ///////////////////////////////////////////////////
 // // case PROPS
@@ -160,5 +161,3 @@ const Table = props => {
 //     )
 //   }
 // }
-
-export default Table

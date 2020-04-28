@@ -28,7 +28,7 @@ Reactは`JavaScript`のライブラリで、GitHubでは10万以上の星がつ�
 
 フロントエンドでのユーザーインターフェース（UI）の構築にReactが使われています。
 ReactはMVCアプリケーションのビュー層（モデルビューコントローラ
-Reactの最も重要な点の1つは、カスタムで再利用可能なHTML要素のようなコンポーネントを作成して、迅速かつ効率的にユーザーインターフェイスを構築できることです。React はまた、ステートとプロップを使ってデータの保存と処理方法を合理化します。
+Reactの最も重要な点の1つは、カスタムで再利用可能なHTML要素のようなコンポーネントを作成して、迅速かつ効率的にユーザーインターフェイスを構築できることです。React はまた、stateとプロップを使ってデータの保存と処理方法を合理化します。
 
 この記事では、これらすべてとそれ以上のことを説明していきます。
 
@@ -660,13 +660,13 @@ const TableBody = props => {
 
 各テーブルの行にキーインデックスを追加したことに気づくでしょう。Reactでリストを作成する際には、常に[keys](https://reactjs.org/docs/lists-and-keys.html#keys)を使用する必要があります。リスト項目を操作したいときに、これがどのように必要なのかを見てみましょう。
 
-プロップは既存のデータをReactコンポーネントに渡すための効果的な方法ですが、コンポーネントはプロップを変更することができません。次のセクションでは、React でのデータ処理をさらに制御するためにステートを使用する方法を学びます。
+プロップは既存のデータをReactコンポーネントに渡すための効果的な方法ですが、コンポーネントはプロップを変更することができません。次のセクションでは、React でのデータ処理をさらに制御するためにstateを使用する方法を学びます。
 
 ## State
 
 今のところ、文字データを変数の配列に格納し、それを`Props`として渡しています。これは良いことですが、配列からアイテムを削除できるようにしたい場合を想像してみてください。`props`では一方通行のデータフローですが、`state`ではコンポーネントのプライベートデータを更新することができます。
 
-ステートとは、必ずしもデータベースに追加されなくても、保存したり変更したりする必要のあるデータのことだと考えることができます。
+stateとは、必ずしもデータベースに追加されなくても、保存したり変更したりする必要のあるデータのことだと考えることができます。
 
 まず、`stateオブジェクト`を作成します。
 
@@ -793,3 +793,136 @@ __src/Table.js__
 
 これで削除ボタンができて、文字を削除することで状態を修正できるようになりました。驚きです。
 
+
+## フォームデータの送信
+
+これで、stateにデータが格納されているので、stateから任意の項目を削除することができるようになりました。しかし、stateに新しいデータを追加できるようにしたいとしたらどうでしょうか？実際のアプリケーションでは、空の状態から始めて、to-doリストやショッピングカートのように追加することが多いでしょう。
+
+何かをする前に、state.charactersからハードコードされたデータをすべて削除しておきましょう。
+
+__src/App.js__
+
+```
+class App extends Component {
+  state = {
+    characters: [],
+  }
+}
+```
+
+それでは、Form.js という新しいファイルに Form コンポーネントを作成してみましょう。
+
+フォームの初期状態を空のプロパティを持つオブジェクトに設定し、その初期状態を`this.state`に代入します。
+
+import React, { Compornent } from 'react'
+
+__src/Form.js__
+
+```
+class Form extends Compornent {
+  initalState = {
+    name: '',
+    job: '',
+  }
+  state = this.initalState
+}
+```
+
+> 以前はReactクラスのコンポーネントにconstructor()を含める必要がありましたが、今は不要になりました。
+
+このフォームの目標は、フォーム内のフィールドが変更されるたびにフォームの状態を更新し、送信時にはすべてのデータが`App`の状態に渡され、テーブルが更新されることです。
+
+まず、入力に変更が加えられるたびに実行される関数を作ります。イベントを通し、入力の名前(キー)と値を持つように`Form`の状態を設定します。
+
+__src/Form.js__
+
+```
+handleChange = event => {
+  const { name, value } = event.target
+
+  this.setState({
+    [name]: value,
+  })
+}
+```
+
+フォームを送信する前にこの作業を行いましょう。レンダリングでは、stateから2つのプロパティを取得し、適切なフォームのkeyに対応する値として割り当てましょう。入力の`onChange`として`handleChange()`メソッドを実行し、最後に`Formコンポーネント`をエクスポートします。
+
+__src/Form.js__
+
+```
+render() {
+  const { name, job } = this.state;
+
+  return (
+    <form>
+      <label htmlFor="name">Name</label>
+      <input
+        type="text"
+        name="name"
+        id="name"
+        value={name}
+        onChange={this.handleChange} />
+      <label htmlFor="job">Job</label>
+      <input
+        type="text"
+        name="job"
+        id="job"
+        value={job}
+        onChange={this.handleChange} />
+    </form>
+  );
+}
+
+export default Form;
+```
+
+`App.js`では、表の下のフォームをレンダリングします。
+
+__src/App.js__
+
+```
+return (
+  <div className="container">
+    <Table characterData={characters} removeCharacter={this.removeCharacter} />
+    <Form />
+  </div>
+)
+```
+
+アプリのフロントエンドに行くと、まだ送信がないフォームが表示されます。いくつかのフィールドを更新すると、フォームのローカル状態が更新されているのがわかります。
+
+最後のステップは、実際にデータを送信して親の状態を更新できるようにすることです。`App`上に`handleSubmit()`という関数を作成して、既存の`this.state.characters`を取得し、ES6のスプレッド演算子を使用して新しい文字パラメータを追加することで状態を更新します。
+
+__src/App.js__
+
+```
+handleSubmit = character => {
+  this.setState({ characters: [...this.state.characters, character] })
+}
+```
+
+これを`Form`のパラメータとして渡しましょう。
+
+```
+<Form handleSubmit={this.handleSubmit} />
+```
+
+フォームの中に `submitForm()` というメソッドを作成して、この関数を呼び出し、先ほど定義した`characterパラメータ`としてフォームの状態を渡します。また、フォームの状態を初期状態にリセットし、送信後にフォームをクリアします。
+
+__src/Form.js__e
+
+```
+submitForm = () => {
+  this.props.handleSubmit(this.state)
+  this.setState(this.initialState)
+}
+```
+
+最後に、フォームを送信するための送信ボタンを追加します。標準の送信機能を使用していないので、`onSubmit`の代わりに `onClick`を使用しています。クリックすると先ほど作成した `submitForm`が呼び出されます。
+
+```
+<input type="button" value="Submit" onClick={this.submitForm} />
+```
+
+そして、これで完成! アプリの完成です。テーブルからユーザーを作成したり、追加したり、削除したりできるようになりました。すでに状態から`Table`と`TableBody`を引っ張ってきていたので、ちゃんと表示されます。
