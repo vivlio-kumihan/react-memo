@@ -926,3 +926,55 @@ submitForm = () => {
 ```
 
 そして、これで完成! アプリの完成です。テーブルからユーザーを作成したり、追加したり、削除したりできるようになりました。すでに状態から`Table`と`TableBody`を引っ張ってきていたので、ちゃんと表示されます。
+
+## APIデータの取り込み
+
+Reactの非常に一般的な使い方の1つは、APIからデータを取得することです。APIとは何か、あるいはAPIへの接続方法をよく知らない場合は、[How to Connect to an API with JavaScript](https://www.taniarascia.com/how-to-connect-to-an-api-with-javascript/) を読むことをお勧めします。
+
+ちょっとしたテストとして、新しい`Api.js`ファイルを作成し、そこに新しいアプリを作成します。テストできる公開APIは[Wikipedia API](https://en.wikipedia.org/w/api.php)で、ここに[URLのエンドポイント](https://en.wikipedia.org/w/api.php?action=opensearch&search=Seona+Dancing&format=json&origin=*)があります。このリンクにアクセスしてAPIを見ることができます-ブラウザに[JSONView](https://chrome.google.com/webstore/detail/jsonview/chklaanhfefbnpoihckbnefhakgolnmc)がインストールされていることを確認してください。
+
+このURLエンドポイントからデータを収集して表示するために、[JavaScriptの組み込みFetch](https://www.taniarascia.com/how-to-use-the-javascript-fetch-api-to-get-json-data/)を使用します。`index.js`-`import App from './Api';`でURLを変更するだけで、先ほど作成したアプリとこのテストファイルを切り替えることができます。
+
+このコードについては、コンポーネントの作成、レンダリング、ステート配列を介したマッピングについては既に学習しているので、一行一行説明するつもりはありません。このコードの新たな側面は、Reactのライフサイクルメソッドである`componentDidMount()`です。ライフサイクルとは、Reactでメソッドが呼び出される順番のことです。マウントとは、アイテムがDOMに挿入されることを指します。
+
+APIデータを取り込む際には、データを取り込む前にコンポーネントがDOMにレンダリングされたことを確認したいので、`componentDidMount`を使用したいと思います。以下のスニペットでは、Wikipedia APIからデータを取り込み、ページに表示する方法を見てみましょう。
+
+__Api.js__
+
+```
+import React, { Component } from 'react'
+
+class App extends Component {
+  state = {
+    data: [],
+  }
+
+  // Code is invoked after the component is mounted/inserted into the DOM tree.
+  componentDidMount() {
+    const url =
+      'https://en.wikipedia.org/w/api.php?action=opensearch&search=Seona+Dancing&format=json&origin=*'
+
+    fetch(url)
+      .then(result => result.json())
+      .then(result => {
+        this.setState({
+          data: result,
+        })
+      })
+  }
+
+  render() {
+    const { data } = this.state
+
+    const result = data.map((entry, index) => {
+      return <li key={index}>{entry}</li>
+    })
+
+    return <ul>{result}</ul>
+  }
+}
+
+export default App
+```
+
+このファイルをローカルサーバーで保存して実行すると、`Wikipedia API`のデータがDOMに表示されます。
