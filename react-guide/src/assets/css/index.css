@@ -22,10 +22,15 @@ h1, h2, h3, h4, h5, h6, div, p, a, li {
   font-family: 'M PLUS Rounded 1c', sans-serif;
   font-family: 'Pacifico', cursive;
   */
-  line-height: 4rem;
+  line-height: 1.1;
   color: brown;
 }
 
 h1 {
+  font-weight: 900;
+}
+
+#root {
+  font-size: 3rem;
   font-weight: 900;
 }
