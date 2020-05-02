@@ -273,13 +273,130 @@ function App() {
 }
 ```
 
+### コンポーネントの抽出 ー全然理解できていないー
+
+コンポーネントをより小さなコンポーネントに分割することを恐れないでください。
+
+origin
+
+```
+function Comment(props) {
+  return (
+    <div className="Comment">
+      <div className="UserInfo">
+        <img className="Avatar"
+          src={props.author.avatarUrl}
+          alt={props.author.name} />
+        <div className="UserInfo-name">
+          {props.author.name}
+        </div>
+      </div>
+      <div className="Comment-text">
+        {props.text}
+      </div>
+      <div className="Comment-date">
+        {formatDate(props.date)}
+      </div>
+    </div>
+  )
+}
+```
+
+#02
+
+これは`props`として`author（オブジェクト）`、`text（文字列）`、および`date（日付）`を受け取り、ソーシャルメディアサイトにおける1つのコメントを表します。
+
+これだけのネストがあるため、このコンポーネントの変更には苦労を伴い、また内部の個々の部品を再利用することも困難です。ここからいくつかのコンポーネントを抽出しましょう。
+
+まず、`Avata`rを抽出します。
+
+```
+function Avatar(props) {
+  return (
+    <img className="Avatar"
+          src={props.user.avatarUrl}
+          alt={props.user.name} />
+  )
+}
+
+function Comment(props) {
+  return (
+    <div className="Comment">
+      <div className="UserInfo">
+        <Avatar user={props.author} />
+        <div className="UserInfo-name">
+          {props.author.name}
+        </div>
+      </div>
+      <div className="Comment-text">
+        {props.text}
+      </div>
+      <div className="Comment-date">
+        {formatDate(props.date)}
+      </div>
+    </div>
+  )
+}
+```
+
+`Avatar`は、自身が`Comment`の内側でレンダリングされているということを知っている必要はありません。なので`props`の名前として、`author`ではなく`user`というもっと一般的な名前を付けました。
+
+コンポーネントが使用されるコンテキストではなく、コンポーネント自身からの観点で`props`の名前を付けることをお勧めします。
+
+これで`Comment`をほんの少しシンプルにできます。
+
+#03
+
+次に、ユーザ名の隣の`Avatar`をレンダリングするために使われる、`UserInfo`コンポーネントを抽出しましょう。
+
+```
+function Avatar(props) {
+  return (
+    <img className="Avatar"
+          src={props.user.avatarUrl}
+          alt={props.user.name} />
+  )
+}
+
+function UserInfo(props) {
+  return (
+    <div className="UsdrInfo">
+      <Avatar user={props.user} />
+      <div className="UserInfo-name">
+        {props.user.name}
+      </div>
+    </div>
+  )
+}
+
+function Comment(props) {
+  return (
+    <div className="Comment">
+      <UserInfo user={props.author} />
+      <div className="Comment-text">
+        {props.text}
+      </div>
+      <div className="Comment-date">
+        {formatDate(props.date)}
+      </div>
+    </div>
+  )
+}
+
+ReactDOM.render(
+  <Comment />,
+  document.getElementById("root")
+)
+```
+
+コンポーネントの抽出は最初は面倒な仕事のように思えますが、再利用できるコンポーネントをパレットとして持っておくことは、アプリケーションが大きくなれば努力に見合った利益を生みます。役に立つ経験則として、UIの一部（Button、Panel、Avatarなど）が複数回使われている場合、またはそのUI自体が複雑（App、FeedStory、Commentなど）である場合、それらは再利用可能なコンポーネントにする有力な候補であるといえます。
+
+
 
 // __Class Component__
 
-```
-class Welcome extends React.Component {
-  render() {
-    return <h1>Hello, {this.props.name}</h1>
-  }
-}
-```
+// class Welcome extends React.Component {
+//   render() {
+//     return <h1>Hello, {this.props.name}</h1>
+//   }
+// }
