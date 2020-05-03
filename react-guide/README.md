@@ -167,13 +167,15 @@ ReactDOM.render(
 * Reactだけで構築されたアプリケーションは、通常`Root DOM Node`をひとつだけ持つ。
 * 既存のアプリにReactを統合しようとしている場合は、独立した`Root DOM Node`を好きなだけ持つことができる。
 
+```
 const element = <div id="root">Hello, React!</div>
 
 ReactDOM.render(
   element,
   document.getElementById("root")
 )
-  
+```
+
 ## レンダリングされた要素の更新
   
 * React elementはイミュータブル。
