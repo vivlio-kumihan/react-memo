@@ -148,13 +148,6 @@ const element = {
 }
 ```
 
-```
-import React, { useReducer, Component } from 'react';
-import ReactDOM from 'react-dom';
-import './assets/css/index.css';
-```
-
-
 # 要素の描写
 
 ## 要素(element)とは`React`アプリケーションの最小単位の構成ブロック
@@ -267,6 +260,14 @@ class Welcome extends React.Component {
 コンポーネントは自身の出力の中で他のコンポーネントを参照できます。これにより、どの詳細度のレベルにおいても、コンポーネントという単一の抽象化を利用できます。ボタン、フォーム、ダイアログ、画面：Reactアプリでは、これらは共通してコンポーネントとして表現される。
 
 クラス＝インスタンスの発生のさせ方がとてもRuby的で心地よい。
+
+__Compornent stateを使う時のimport__
+
+```
+import React, { useReducer, Component } from 'react';
+import ReactDOM from 'react-dom';
+import './assets/css/index.css';
+```
 
 ```
 function Welcome(props) {
