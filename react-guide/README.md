@@ -492,11 +492,11 @@ ReactDOM.render(
 
 ## 関数をクラスに変換する
 
-1 `React.Component`を継承する同名のES6クラスを作成する。
-1 `render()`と呼ばれる空のメソッドを1つ追加する。
-1 関数の中身を`render()`メソッドに移動する。
-1 `render()`内の`props`を`this.props`に書き換える。
-1 空になった関数の宣言部分を削除する。
+1. `React.Component`を継承する同名のES6クラスを作成する。
+1. `render()`と呼ばれる空のメソッドを1つ追加する。
+1. 関数の中身を`render()`メソッドに移動する。
+1. `render()`内の`props`を`this.props`に書き換える。
+1. 空になった関数の宣言部分を削除する。
 
 ```
 class Clock extends React.Component {
@@ -528,7 +528,7 @@ setInterval(tick, 1000)
 
 以下の3ステップで`date`を`props`から`state`に移します：
 
-1 `render()メソッド内`の`this.props.date`を`this.state.date`に書き換える。
+1. `render()メソッド内`の`this.props.date`を`this.state.date`に書き換える。
 1 `this.state`の初期状態を設定するクラスコンストラクタを追加する。
 1 `<Clock />`要素から`date`プロパティを削除する。
 
