@@ -250,6 +250,15 @@ ReactDOM.render(
   document.getElementById("root")
 )
 ```
+```
+__Class Component__
+
+class Welcome extends React.Component {
+  render() {
+    return <h1>Hello, {this.props.name}</h1>
+  }
+}
+````
 
 ### コンポーネントを組み合わせる
 
@@ -391,12 +400,156 @@ ReactDOM.render(
 
 コンポーネントの抽出は最初は面倒な仕事のように思えますが、再利用できるコンポーネントをパレットとして持っておくことは、アプリケーションが大きくなれば努力に見合った利益を生みます。役に立つ経験則として、UIの一部（Button、Panel、Avatarなど）が複数回使われている場合、またはそのUI自体が複雑（App、FeedStory、Commentなど）である場合、それらは再利用可能なコンポーネントにする有力な候補であるといえます。
 
+## Props は読み取り専用
+
+コンポーネントを関数で宣言するかクラスで宣言するかに関わらず、自分自身の props は決して変更してはいけません。
+
+このような関数は入力されたものを変更しようとせず、同じ入力に対し同じ結果を返すので “純粋” であると言われます。
+
+全ての`Reactコンポーネント`は、自己の`props`に対して純関数のように振る舞わねばならない。
 
 
-// __Class Component__
+```
+function Sum(props) {
+  return `${ props.nums[0] } + ${ props.nums[1] } = ${ props.nums[0] + props.nums[1] }`
+}
 
-// class Welcome extends React.Component {
-//   render() {
-//     return <h1>Hello, {this.props.name}</h1>
-//   }
-// }
+const element = <Sum nums={[100, 10]} />
+
+ReactDOM.render(
+  element,
+  document.getElementById("root")
+)
+```
+
+```
+// import React from 'react';
+import React, { useReducer, Component } from 'react';
+import ReactDOM from 'react-dom';
+import './assets/css/index.css';
+```
+
+## state とライフサイクル
+
+`UI`を更新するための方法をひとつだけ学びました。それはレンダーされた出力を更新するために`ReactDOM.render()`を呼び出すというものでした。
+
+この`Clockコンポーネント`を真に再利用可能かつカプセル化されたものにする方法を学びます。コンポーネントが自分でタイマーをセットアップし、自身を毎秒更新するように変更を加えます。
+
+```
+function tick() {
+  const element = (
+    <div>
+      <h3>Hello, React!</h3>
+      <h3>Now, {new Date().toLocaleTimeString()}!</h3>
+    </div>
+  )
+  ReactDOM.render(
+    element,
+    document.getElementById("root")
+  )
+}
+setInterval(tick, 1000)
+```
+
+時計の見た目をカプセル化するところから始めます。
+
+```
+function Clock(props) {
+  return (
+    <div>
+      <h3>Hello, React!</h3>
+      <h3>Now, {new Date().toLocaleTimeString()}!</h3>
+    </div>
+  )
+}
+
+function tick() {
+  ReactDOM.render(
+    <Clock date={new Date()} />,
+    document.getElementById("root")
+  )
+}
+
+setInterval(tick, 1000)
+```
+
+しかし上記のコードは重要な要件を満たしていません。
+
+`Clock`がタイマーを設定して`UI`を毎秒ごとに更新するという処理は、`Clock`の内部実装の詳細(implementation detail)であるべきだということです。
+
+理想的には以下のコードを一度だけ記述して、`Clock`に自身を更新させたいのです。
+
+```
+ReactDOM.render(
+  <Clock />,
+  document.getElementById('root')
+)
+```
+
+これを実装するには、`Clockコンポーネント`に“`ステート(state)`”を追加する必要があります。
+
+`state`は`props`に似ていますが、コンポーネントによって完全に管理されるプライベートなものです。
+
+## 関数をクラスに変換する
+
+1 `React.Component`を継承する同名のES6クラスを作成する。
+1 `render()`と呼ばれる空のメソッドを1つ追加する。
+1 関数の中身を`render()`メソッドに移動する。
+1 `render()`内の`props`を`this.props`に書き換える。
+1 空になった関数の宣言部分を削除する。
+
+```
+class Clock extends React.Component {
+  render() {
+    return (
+      <div>
+        <h3>Hello, React!</h3>
+        <h3>Now, {this.props.date.toLocaleTimeString()}.</h3>
+      </div>
+    )
+  }
+}
+
+function tick() {
+  ReactDOM.render(
+    <Clock date={new Date()} />,
+    document.getElementById("root")
+  )
+}
+
+setInterval(tick, 1000)
+```
+
+これでもう、`Clock`は関数ではなくクラスとして定義されています。
+
+`renderメソッド`は更新が発生した際に毎回呼ばれますが、同一の`DOMノード内`で`<Clock/>`をレンダーしている限り、`Clockクラス`のインスタンスは1つだけ使われます。このことにより、`ローカルstate`や`ライフサイクルメソッド`といった追加の機能が利用できるようになります。
+
+## クラスにローカルな state を追加する
+
+以下の3ステップで`date`を`props`から`state`に移します：
+
+1 `render()メソッド内`の`this.props.date`を`this.state.date`に書き換える。
+1 `this.state`の初期状態を設定するクラスコンストラクタを追加する。
+1 `<Clock />`要素から`date`プロパティを削除する。
+
+```
+class Clock extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = { date: new Date() }
+  }
+  render() {
+    return (
+      <div>
+        <h3>Hello, React!</h3>
+        <h3>Now, {this.state.date.toLocaleTimeString()}.</h3>
+      </div>
+    )
+  }
+}
+
+ReactDOM.render(
+  <Clock />,
+  document.getElementById('root')
+)
+```
