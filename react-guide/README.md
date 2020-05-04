@@ -1,6 +1,6 @@
-## 最初のコード
+## __最初のコード__
 
-### アプリのインストール
+### アプリケーションのインストール
 
 ```
 $ npx create-react-app PROJECT_NAME
@@ -22,13 +22,14 @@ index.jsから見て
 
 をインスタンス化してimportしている。
 
-### とりあえずReactが動作するかを確認するためのコード
+### とりあえずReactが動作するかを確認するためのコード。ヘッダー（とは言わないが）とレンダー
 
 __src/index.js__
 
 ```
 import React from 'react';
 import ReactDOM from 'react-dom';
+
 ReactDOM.render(
   <h1>Hello, React!</h1>,
   document.getElementById('root')
@@ -37,19 +38,14 @@ ReactDOM.render(
 
 # Reactに慣れる
 
-## 変数を宣言して出力する
+## __変数を宣言して出力する__
 
 ```
 const name = "John Lennon";
 const element = <h1>Hello, {name}</h1>;
-
-ReactDOM.render(
-  element,
-  document.getElementById("root")
-)
 ```
 
-## 関数、変数を仕込んで出力させる
+## __関数、変数を仕込んで出力させる__
 
 ```
 function formatName(user) {
@@ -68,7 +64,7 @@ const element = (
 )
 ```
 
-## 条件分岐を使う
+## __条件分岐を使う__
 
 ```
 function getGreeting(user) {
@@ -114,9 +110,9 @@ const element = (
 )
 ```
 
-## JSXはオブジェクトの表現である
+## __JSXのわかりやすさ__
 
-__JSXで書く__
+### JSXで書く
 
 ```
 const element = (
@@ -126,7 +122,7 @@ const element = (
 )
 ```
 
-__Babelで書く__
+### Babelで書く
 
 ```
 const element = React.createElement(
@@ -150,7 +146,7 @@ const element = {
 
 # 要素の描写
 
-## 要素(element)とは`React`アプリケーションの最小単位の構成ブロック
+## __要素(element)とは`Reactアプリケーション`の最小単位の構成ブロック__
 
 ```
 const element = <h1>Hello, React!</h1>
@@ -161,11 +157,11 @@ ReactDOM.render(
 )
 ```
 
-## 要素を DOM として描画する
+## __要素をDOMとして描画する__
 
 * この中にあるもの全てが`React DOM`によって管理されることになるので、`Root DOM Node`と呼ぶことにする。
-* Reactだけで構築されたアプリケーションは、通常`Root DOM Node`をひとつだけ持つ。
-* 既存のアプリにReactを統合しようとしている場合は、独立した`Root DOM Node`を好きなだけ持つことができる。
+* Reactだけで構築されたアプリケーションは、通常`Root DOM Node`を __ひとつだけ__ 持つ。
+* 『既存のアプリケーションにReactを統合しようとしている場合は、独立した`Root DOM Node`を好きなだけ持つことができる』という説明。 __Reactアプリケーションはそれぞれの集合。indexにimportして使うってことと今は理解しておく。__
 
 ```
 const element = <div id="root">Hello, React!</div>
@@ -176,12 +172,12 @@ ReactDOM.render(
 )
 ```
 
-## レンダリングされた要素の更新
+## __レンダリングされた要素の更新__
   
 * React elementはイミュータブル。
 * UIを更新する唯一の方法は、新しい要素を作成して`ReactDOM.render()`に渡して解決する。
 * 具体的には、逐次変化する要素を持った状態を関数に定義して、外から発火させる。
-* かしこい言葉で言えば、`関数setInterval()`のコールバックから`ReactDOM.render()`を毎秒呼び出す。
+* つまり、`関数setInterval()`のコールバックから`ReactDOM.render()`を毎秒呼び出すと言うらしい。
 
 ```
 function tick() {
@@ -202,40 +198,43 @@ setInterval(tick, 1000)
 
 # Compnentと props
 
-Compnentにより`UI`を独立した再利用できる部品に分割し、部品それぞれを分離して考えることができるようになる。
+Compnentによって、`UI`を独立した再利用できる部品に分割し、部品それぞれを分離・差し込みアプリケーションを組み合わせて構成することが出来るようになる。
 
-## Function CompnentとClass Compnent
+## __Function, simple, CompnentとClass Compnent__
 
-### Componentの定義　シンプル版
+### __Componentの定義__
 
 __Function Component__
 
-データの入った`props`(「プロパティ」の意味)というオブジェクトを引数としてひとつ受け取り、React要素を返すので、有効な `React Compnent`である。
+データの入った`props`(「Property」の略)オブジェクトを引数としてひとつ受け取り、React Propertyを返す。
 
-これは文字通りJavaScriptの関数ですので、このようなCompnentのことを`Function Component`と呼ぶ。
+これは文字通りJavaScriptの関数なので`Function Component`と呼ぶ。
 
 __基礎知識__
 
 > 変数にはJSXを入れる。
-> ということは（）で囲って大袈裟なhtmlを入れることもできるし、開始終了タグを入れることも出来る。JSXは状態なわけ。
+> ということは`()`で囲って構造的な`html式`を入れることもできるし、開始終了の`簡易なHTMLタグ`を入れることも出来る。JSXは状態を保持することが出来る。
 
 ```
 なにも表示されないけどね…
 const element = <div />
 ```
 
-Function名をクラスのインスタンスのように扱うことができる。
+Function名をクラスのインスタンスのように扱う。
 
 ```
 'Welcome' is not definedと言われるけどね…
 const element = <Welcome />
 ```
 
-まとめるとこんなことが出来る。シンプル、美しい。
+Reactは、式の中でユーザ定義のConponentを見つけた場合、`JSX`に中の`属性`と`子要素`を単一の`オブジェクト`として、`Welcome Coponent`に渡す。このオブジェクトのことを`props`と呼ぶ。
 
-Reactがユーザ定義のコンポーネントを見つけた場合、`JSX`に書かれている属性と子要素を単一のオブジェクトとしてこのコンポーネントに渡します。このオブジェクトのことを`props`と呼ぶ。
+__Function, simple, Component__
 
 ```
+// Componentを使うことを宣言する。
+import React, { Component } from "react"
+
 function Welcome(props) {
   return <h1>Hello, {props.name}</h1>
 }
@@ -247,9 +246,12 @@ ReactDOM.render(
   document.getElementById("root")
 )
 ```
-```
+
 __Class Component__
 
+`Function Component`を書き換える。
+
+```
 class Welcome extends React.Component {
   render() {
     return <h1>Hello, {this.props.name}</h1>
@@ -257,15 +259,43 @@ class Welcome extends React.Component {
 }
 ````
 
-### コンポーネントを組み合わせる
+### 練習問題
 
-コンポーネントは自身の出力の中で他のコンポーネントを参照できます。これにより、どの詳細度のレベルにおいても、コンポーネントという単一の抽象化を利用できます。ボタン、フォーム、ダイアログ、画面：Reactアプリでは、これらは共通してコンポーネントとして表現される。
+```
+function Welcome(props) {
+  return <h1>{props.name}</h1>
+}
+
+const element = <Welcome name="John" />
+```
+
+```
+class Welcome extends Component {
+  render() {
+    return <h1>Hello, {this.props.name}</h1>
+  }
+}
+
+const element = <Welcome name="Paul" />
+
+ReactDOM.render(
+  element,
+  document.getElementById("root")
+)
+```
+
+
+### __Componentを組み合わせる__
+
+`Component`は自身の出力の中で他の`Component`を参照できます。これにより、どの詳細度のレベルにおいても、`Component`という単一の抽象化を利用できます。ボタン、フォーム、ダイアログ、画面。Reactアプリケーションでは、これらは共通して`Component`として表現される。
 
 クラス＝インスタンスの発生のさせ方がとてもRuby的で心地よい。
 
 __Compornent stateを使う時のimport__
 
 ```
+// 先ほどまでのComponentに加え、`useReducer`として`state`を使うことを宣言する。
+
 import React, { useReducer, Component } from 'react';
 import ReactDOM from 'react-dom';
 import './assets/css/index.css';
@@ -287,9 +317,9 @@ function App() {
 }
 ```
 
-### コンポーネントの抽出 ー全然理解できていないー
+### Componentの抽出 ー全然理解できていないー
 
-コンポーネントをより小さなコンポーネントに分割することを恐れないでください。
+`Component`をより小さな`Component`に分割することを恐れないでください。
 
 origin
 
@@ -320,7 +350,7 @@ function Comment(props) {
 
 これは`props`として`author（オブジェクト）`、`text（文字列）`、および`date（日付）`を受け取り、ソーシャルメディアサイトにおける1つのコメントを表します。
 
-これだけのネストがあるため、このコンポーネントの変更には苦労を伴い、また内部の個々の部品を再利用することも困難です。ここからいくつかのコンポーネントを抽出しましょう。
+これだけのネストがあるため、この`Component`の変更には苦労を伴い、また内部の個々の部品を再利用することも困難です。ここからいくつかの`Component`を抽出しましょう。
 
 まず、`Avata`rを抽出します。
 
@@ -355,13 +385,13 @@ function Comment(props) {
 
 `Avatar`は、自身が`Comment`の内側でレンダリングされているということを知っている必要はありません。なので`props`の名前として、`author`ではなく`user`というもっと一般的な名前を付けました。
 
-コンポーネントが使用されるコンテキストではなく、コンポーネント自身からの観点で`props`の名前を付けることをお勧めします。
+`Component`が使用されるコンテキストではなく、`Component`自身からの観点で`props`の名前を付けることをお勧めします。
 
 これで`Comment`をほんの少しシンプルにできます。
 
 #03
 
-次に、ユーザ名の隣の`Avatar`をレンダリングするために使われる、`UserInfo`コンポーネントを抽出しましょう。
+次に、ユーザ名の隣の`Avatar`をレンダリングするために使われる、`UserInfo Component`を抽出しましょう。
 
 ```
 function Avatar(props) {
@@ -403,18 +433,22 @@ ReactDOM.render(
 )
 ```
 
-コンポーネントの抽出は最初は面倒な仕事のように思えますが、再利用できるコンポーネントをパレットとして持っておくことは、アプリケーションが大きくなれば努力に見合った利益を生みます。役に立つ経験則として、UIの一部（Button、Panel、Avatarなど）が複数回使われている場合、またはそのUI自体が複雑（App、FeedStory、Commentなど）である場合、それらは再利用可能なコンポーネントにする有力な候補であるといえます。
+`Component`の抽出は最初は面倒な仕事のように思えますが、再利用できる`Component`をパレットとして持っておくことは、アプリケーションが大きくなれば努力に見合った利益を生みます。役に立つ経験則として、UIの一部（Button、Panel、Avatarなど）が複数回使われている場合、またはそのUI自体が複雑（App、FeedStory、Commentなど）である場合、それらは再利用可能な`Component`にする有力な候補であるといえます。
 
-## Props は読み取り専用
+## __Props は読み取り専用__
 
-コンポーネントを関数で宣言するかクラスで宣言するかに関わらず、自分自身の props は決して変更してはいけません。
+`Component`を関数で宣言するかクラスで宣言するかに関わらず、自分自身の`props`の変更は出来ない。
 
-このような関数は入力されたものを変更しようとせず、同じ入力に対し同じ結果を返すので “純粋” であると言われます。
+このように、関数は入力されたものを変更しようとせず、同じ入力に対し同じ結果を返すことを`純粋である`と言われている。
 
-全ての`Reactコンポーネント`は、自己の`props`に対して純関数のように振る舞わねばならない。
+全ての`React Component`は、自己の`props`に対して純関数のように振る舞わねばならない。
 
 
 ```
+import React, { useReducer, Component } from 'react';
+import ReactDOM from 'react-dom';
+import './assets/css/index.css';
+
 function Sum(props) {
   return `${ props.nums[0] } + ${ props.nums[1] } = ${ props.nums[0] + props.nums[1] }`
 }
@@ -427,20 +461,17 @@ ReactDOM.render(
 )
 ```
 
-```
-// import React from 'react';
-import React, { useReducer, Component } from 'react';
-import ReactDOM from 'react-dom';
-import './assets/css/index.css';
-```
-
-## state とライフサイクル
+## __state とライフサイクル__
 
 `UI`を更新するための方法をひとつだけ学びました。それはレンダーされた出力を更新するために`ReactDOM.render()`を呼び出すというものでした。
 
-この`Clockコンポーネント`を真に再利用可能かつカプセル化されたものにする方法を学びます。コンポーネントが自分でタイマーをセットアップし、自身を毎秒更新するように変更を加えます。
+この`Clock Component`を真に再利用可能かつカプセル化されたものにする方法を学びます。`Component`が自分でタイマーをセットアップし、自身を毎秒更新するように変更を加えます。
 
 ```
+import React from 'react';
+import ReactDOM from 'react-dom';
+import './assets/css/index.css';
+
 function tick() {
   const element = (
     <div>
@@ -456,7 +487,7 @@ function tick() {
 setInterval(tick, 1000)
 ```
 
-時計の見た目をカプセル化するところから始めます。
+`Clock Component`の見た目をカプセル化するところから始めます。
 
 ```
 function Clock(props) {
@@ -480,9 +511,9 @@ setInterval(tick, 1000)
 
 しかし上記のコードは重要な要件を満たしていません。
 
-`Clock`がタイマーを設定して`UI`を毎秒ごとに更新するという処理は、`Clock`の内部実装の詳細(implementation detail)であるべきだということです。
+`Clock Component`がタイマーを設定して`UI`を毎秒ごとに更新するという処理は、`Clock Component`の内部実装の詳細(implementation detail)であるべきだということです。
 
-理想的には以下のコードを一度だけ記述して、`Clock`に自身を更新させたいのです。
+理想的には以下のコードを一度だけ記述して、`Clock Component`に自身を更新させたいのです。
 
 ```
 ReactDOM.render(
@@ -491,11 +522,11 @@ ReactDOM.render(
 )
 ```
 
-これを実装するには、`Clockコンポーネント`に“`ステート(state)`”を追加する必要があります。
+これを実装するには、`Clock Component`に`state`を追加する必要があります。
 
-`state`は`props`に似ていますが、コンポーネントによって完全に管理されるプライベートなものです。
+`state`は`props`に似ているが、`Component`によって完全に管理されるプライベートなものである。
 
-## 関数をクラスに変換する
+## __関数をクラスに変換する__
 
 1. `React.Component`を継承する同名のES6クラスを作成する。
 1. `render()`と呼ばれる空のメソッドを1つ追加する。
@@ -504,6 +535,10 @@ ReactDOM.render(
 1. 空になった関数の宣言部分を削除する。
 
 ```
+import React, {　Component } from 'react';
+import ReactDOM from 'react-dom';
+import './assets/css/index.css';
+
 class Clock extends React.Component {
   render() {
     return (
@@ -527,17 +562,27 @@ setInterval(tick, 1000)
 
 これでもう、`Clock`は関数ではなくクラスとして定義されています。
 
-`renderメソッド`は更新が発生した際に毎回呼ばれますが、同一の`DOMノード内`で`<Clock/>`をレンダーしている限り、`Clockクラス`のインスタンスは1つだけ使われます。このことにより、`ローカルstate`や`ライフサイクルメソッド`といった追加の機能が利用できるようになります。
+`renderメソッド`は更新が発生した際に毎回呼ばれますが、同一の`DOMノード内`で`<Clock/>`を描画している限り、`Clock Class`のインスタンスは1つだけ使われます。
 
-## クラスにローカルな state を追加する
+このことにより、`ローカルstate`や`ライフサイクルメソッド`といった追加の機能が利用できるようになります。
 
-以下の3ステップで`date`を`props`から`state`に移します：
+> Reactのコンポーネントにはライフサイクルがあります。そしてReactの公式ドキュメントによると、React.Componentを拡張したコンポーネントでは、あらかじめ用意されているrender()を始めとしたメソッドをライフサイクル内で使用できると書かれています。効率的なコンポーネントを書くためには、それらのメソッドがライフサイクルのどこで実行されるか理解しておく必要があります。
+
+> ライフサイクルにはまず、大きく分けて3つの期間があります。それぞれ順にMounting、Updating、Unmountingと呼ばれ、コンポーネントの準備期間、表示期間、破棄期間となっています。
+
+## __クラスにローカルな state を追加する__
+
+以下の3ステップで`date`を`props`から`state`に移す。
 
 1. `render()メソッド内`の`this.props.date`を`this.state.date`に書き換える。
-1 `this.state`の初期状態を設定するクラスコンストラクタを追加する。
-1 `<Clock />`要素から`date`プロパティを削除する。
+1. `this.state`の初期状態を設定するクラスコンストラクタを追加する。
+1. `<Clock />`要素から`date`プロパティを削除する。
 
 ```
+import React, { useReducer, Component } from 'react';
+import ReactDOM from 'react-dom';
+import './assets/css/index.css';
+
 class Clock extends React.Component {
   constructor(props) {
     super(props)
