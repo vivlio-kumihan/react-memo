@@ -22,7 +22,7 @@ index.jsから見て
 
 をインスタンス化してimportしている。
 
-### とりあえずReactが動作するかを確認するためのコード。ヘッダー（とは言わないが）とレンダー
+とりあえずReactが動作するかを確認するためのコード。ヘッダー（とは言わないが）とレンダー。
 
 __src/index.js__
 
@@ -206,7 +206,7 @@ Compnentによって、`UI`を独立した再利用できる部品に分割し�
 
 __Function Component__
 
-データの入った`props`(「Property」の略)オブジェクトを引数としてひとつ受け取り、React Propertyを返す。
+データの入った`props`（「Property」の略）オブジェクトを引数として受け渡しをする。
 
 これは文字通りJavaScriptの関数なので`Function Component`と呼ぶ。
 
@@ -259,31 +259,101 @@ class Welcome extends React.Component {
 }
 ````
 
-### 練習問題
+### 練習
+
+`full_name`で`John Lennon`と出力させる。
 
 ```
-function Welcome(props) {
-  return <h1>{props.name}</h1>
+import React, { useReducer, Component } from 'react';
+import ReactDOM from 'react-dom';
+import './assets/css/index.css';
+
+////////////
+// #01 elementで出力する
+const element = <h1>John Lennon</h1>
+
+////////////
+// #02 変数に代入しJSXに埋め込んで出力する
+const full_name = "John Lennon"
+const element = <h1>{full_name}</h1>
+
+////////////
+// #03 氏名を繋げる関数を仕込み、その関数ごとJSXに埋め込んで出力する
+function formatName(ins) {
+  return `${ ins.first } ${ ins.last }`
 }
 
-const element = <Welcome name="John" />
-```
+const full_name = {
+  first: "John",
+  last: "Lennon",
+}
 
-```
-class Welcome extends Component {
+const element = <h1>{formatName(full_name)}</h1>
+
+////////////
+// #04 氏名を繋げる関数を仕込みをFunction, Simple Componentで仕込んで出力する
+function FormatName(props) {
+  return `${props.name.first} ${props.name.last }`
+}
+
+const full_name = {
+      first: "John",
+      last: "Lennon",
+  }
+  
+const element = <h1><FormatName name={full_name} /></h1>
+
+////////////
+// #05 氏名を繋げる関数を仕込みをClass Componentで仕込んで出力する
+
+class FormatName extends React.Component {
   render() {
-    return <h1>Hello, {this.props.name}</h1>
+    return `${this.props.name.first} ${this.props.name.last}`
   }
 }
 
-const element = <Welcome name="Paul" />
+const full_name = {
+  first: "John",
+  last: "Lennon",
+}
+
+// JSXをそのままレンダーする方法もある。
+// const element = <h1><FormatName name={full_name} /></h1>
+
+ReactDOM.render(
+  <h1><FormatName name={full_name} /></h1>,
+  document.getElementById("root")
+)
+```
+### 練習
+
+配列に2つの数字を渡し、任意の計算をするFunctionとClass Componentを作成する。
+
+```
+////////////
+// #01
+
+function Sum(props) {
+  return `${props.nums[0]} + ${props.nums[1]} = ${props.nums[0] + props.nums[1]}`
+}
+
+const element = <Sum nums={[100, 10]} />
+
+////////////
+// #02
+class Sum extends React.Component {
+  render() {
+    return `${this.props.nums[0]} + ${this.props.nums[1]} = ${this.props.nums[0] + this.props.nums[1]}`
+  }
+}
+
+const element = <h1><Sum nums={[100, 10]} /></h1> 
 
 ReactDOM.render(
   element,
   document.getElementById("root")
 )
 ```
-
 
 ### __Componentを組み合わせる__
 
@@ -437,11 +507,11 @@ ReactDOM.render(
 
 ## __Props は読み取り専用__
 
-`Component`を関数で宣言するかクラスで宣言するかに関わらず、自分自身の`props`の変更は出来ない。
+`Component`を関数またはクラスで宣言するかに関わらず、自身の`props`は変更出来ない。
 
-このように、関数は入力されたものを変更しようとせず、同じ入力に対し同じ結果を返すことを`純粋である`と言われている。
+関数は入力されたものを変更しようとせず、同じ入力に対し同じ結果を返すことを`純粋である`と言われている。
 
-全ての`React Component`は、自己の`props`に対して純関数のように振る舞わねばならない。
+全ての`ReactのComponent`は、自己の`props`に対して純関数のように振る舞わねばならない。
 
 
 ```
