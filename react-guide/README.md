@@ -325,6 +325,37 @@ ReactDOM.render(
   document.getElementById("root")
 )
 ```
+
+### 練習
+
+氏名を格納したオブジェクトと、フルネームでフォーマットする関数を用意して、オブジェクトを呼び出せば『Hello, フルネーム!』、引数がなければ『Hello, Someone!』と返すComponentを作る。
+
+```
+import React, { useReducer, Component } from 'react';
+import ReactDOM from 'react-dom';
+import './assets/css/index.css';
+
+function full_name(ins) {
+  if (ins) {
+    return `${ ins.first } ${ ins.last }`
+  } else {
+    return "Someone"
+  }
+}
+
+const name = {
+  first: "John",
+  last: "Lennon"
+} 
+
+const element = <h1>Hello, {full_name(name)}!</h1>
+
+ReactDOM.render(
+  element,
+  document.getElementById("root")
+)
+
+```
 ### 練習
 
 配列に2つの数字を渡し、任意の計算をするFunctionとClass Componentを作成する。
@@ -640,6 +671,22 @@ setInterval(tick, 1000)
 
 > ライフサイクルにはまず、大きく分けて3つの期間があります。それぞれ順にMounting、Updating、Unmountingと呼ばれ、コンポーネントの準備期間、表示期間、破棄期間となっています。
 
+## __コンポーネントライフサイクル__
+
+各コンポーネントには、処理の過程の特定の時点でコードを実行するためにオーバーライドできるいくつかの「`ライフサイクルメソッド`」がある。
+
+![ライフサイクルメソッド](./assets/img/react_component_life-cycle.png)
+
+
+### __マウント__
+
+コンポーネントのインスタンスが作成されて`DOM`に挿入されるときに、これらのメソッドが次の順序で呼び出される。
+
+> constructor()
+static getDerivedStateFromProps()
+render()
+componentDidMount()
+
 ## __クラスにローカルな state を追加する__
 
 以下の3ステップで`date`を`props`から`state`に移す。
@@ -671,5 +718,77 @@ class Clock extends React.Component {
 ReactDOM.render(
   <Clock />,
   document.getElementById('root')
+)
+```
+
+### __一連のコードをまとめてみる。__
+
+```
+import React, { useReducer, Component } from 'react';
+import ReactDOM from 'react-dom';
+import './assets/css/index.css';
+
+// #01
+function clock() {
+  const element = <h1>Now: {new Date().toLocaleTimeString()}</h1>
+
+  ReactDOM.render(
+    element,
+    document.getElementById("root")
+  )
+}
+
+setInterval(clock, 1000)
+
+// #02
+function Clock(props) {
+  return `Now: ${props.date.toLocaleTimeString()}`
+}
+
+function renderTriger() {
+  ReactDOM.render(
+    <h1><Clock date={new Date()} /></h1>,
+    document.getElementById("root")
+  )
+}
+
+setInterval(renderTriger, 1000)
+
+// #03
+class Clock extends React.Component {
+  render() {
+    return `Now: ${ this.props.date.toLocaleTimeString() }`
+  }
+}
+
+function renderTriger() {
+  ReactDOM.render(
+    <h1><Clock date={new Date()} /></h1>,
+    document.getElementById("root")
+  )
+}
+
+setInterval(renderTriger, 1000)
+
+// "引き金を引いて、関数を呼び出し処理をして、出力すると"という状態を持つ = state
+
+// #04
+class Clock extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = { date: new Date() }
+  }
+  render() {
+    return ( 
+      <h1>
+        Now: {this.state.date.toLocaleTimeString()}
+      </h1>
+    )
+  }
+}
+
+ReactDOM.render(
+  <Clock />,
+  document.getElementById("root")
 )
 ```
