@@ -27,7 +27,7 @@ React で遊び始める前に、事前に知っておくべきことがいく�
 Reactは`JavaScript`のライブラリで、GitHubでは10万以上の星がついており、最も人気のあるライブラリの一つです。Reactはフレームワークではありません（意見が多いAngularとは異なります）。ReactはFacebookによって作られたオープンソースのプロジェクトです。
 
 フロントエンドでのユーザーインターフェース（UI）の構築にReactが使われています。
-ReactはMVCアプリケーションのビュー層として機能し、最も重要な点の一つは、カスタムで再利用可能なHTML要素のような`Conponent`を作成して、迅速かつ効率的にユーザーインターフェイスを構築できることです。Reactはまた、`state`と`props`を使ってデータの保存と処理方法を合理化します。
+ReactはMVCアプリケーションのビュー層として機能し、最も重要な点の一つは、カスタムで再利用可能なHTML要素のような`Component`を作成して、迅速かつ効率的にユーザーインターフェイスを構築できることです。Reactはまた、`state`と`props`を使ってデータの保存と処理方法を合理化します。
 
 この記事では、これらすべてとそれ以上のことを説明していきます。
 
@@ -84,7 +84,7 @@ class App extends React.Component {
 }
 ```
 
-これに、`Class Component`で唯一必須のメソッドである`render()`メソッドを追加します。
+これに、`Class Component`で唯一必須のメソッドである`render()メソッド`を追加します。
 
 __index.html__
 
@@ -110,7 +110,7 @@ class App extends React.Component {
 }
 ```
 
-最後に、React DOM`render()`メソッドを使って、作成した`App`クラスを`HTML`の`root div`にレンダリングします。
+最後に、`React DOMrender()メソッド`を使って、作成した`App`クラスを`HTML`の`root div`にレンダリングします。
 
 __index.html__
 
@@ -269,7 +269,7 @@ ReactDOM.render(
 
 `React Developer Tools`と呼ばれる拡張機能があり、Reactを使って作業する際に、あなたの生活をとても楽にしてくれます。`React DevTools`を`Chrome`やお好きなブラウザにダウンロードしてください。
 
-インストール後、`DevTools`を開くと、Reactのタブが表示されます。それをクリックすると、`Conponent`が書かれたままの状態で検査することができます。実際の`DOM`出力を見るには、まだ`Elements`タブに行くことができます。今はさほど気にならないかもしれませんが、アプリが複雑になってくると、ますます必要になってくるでしょう。
+インストール後、`DevTools`を開くと、Reactのタブが表示されます。それをクリックすると、`Component`が書かれたままの状態で検査することができます。実際の`DOM`出力を見るには、まだ`Elements`タブに行くことができます。今はさほど気にならないかもしれませんが、アプリが複雑になってくると、ますます必要になってくるでしょう。
 
 ## __JSX: JavaScript + XML__
 
@@ -285,7 +285,7 @@ const heading = <h1 className="site-heading">Hello, React</h1>
 
 Reactを書く上で`JSX`を使うことは必須ではありません。
 
-タグ、`property`を含むオブジェクト、`Conponent`の子要素を引数として`createElement`を実行し、上記と同じ情報をレンダリングしています。
+タグ、`property`を含むオブジェクト、`Component`の子要素を引数として`createElement`を実行し、上記と同じ情報をレンダリングしています。
 
 __No JSX__
 
@@ -314,9 +314,9 @@ const heading = <h1>Hello, {name}</h1>
 
 ## __Component__
 
-ここまでで、``App Component``という1つの`Conponent`を作成しました。Reactのほとんどすべてのものは`Conponent`で構成されており、`Class Component`であったり、シンプルな`Conponent`であったりします。
+ここまでで、`App Component`という1つの`Component`を作成しました。Reactのほとんどすべてのものは`Component`で構成されており、`Class Component`であったり、シンプルな`Component`であったりします。
 
-ほとんどのReactアプリは小さな`Conponent`をたくさん持っていて、すべてがメインの`App Component`にロードされます。`Conponent`も独自のファイルを取得することが多いので、そのためにプロジェクトを変更してみましょう。
+ほとんどのReactアプリは小さな`Component`をたくさん持っていて、すべてがメインの`App Component`にロードされます。`Component`も独自のファイルを取得することが多いので、そのためにプロジェクトを変更してみましょう。
 
 `index.js`から`App`クラスを削除すると、以下のようになります。
 
@@ -331,7 +331,7 @@ import './index.css'
 ReactDOM.render(<App />, document.getElementById('root'))
 ```
 
-`App.js`というファイルを新規作成して、そこに`Conponent`を入れていきます。
+`App.js`というファイルを新規作成して、そこに`Component`を入れていきます。
 
 __src/App.js__
 
@@ -351,11 +351,11 @@ class App extends Component {
 export default App
 ```
 
-`Conponent`を`App`としてエクスポートし、`index.js`で読み込んでいます。`Conponent`をファイルに分けることは必須ではありませんが、そうしないとアプリケーションが手に負えなくなってきます。
+`Component`を`App`としてエクスポートし、`index.js`で読み込んでいます。`Component`をファイルに分けることは必須ではありませんが、そうしないとアプリケーションが手に負えなくなってきます。
 
 ## __Class Component__
 
-別の`Conponent`を作成してみましょう。テーブルを作成します。`Table.js`を作成し、以下のようなテーブルを持つデータを作成します。
+別の`Component`を作成してみましょう。テーブルを作成します。`Table.js`を作成し、以下のようなテーブルを持つデータを作成します。
 
 __src/Table.js__
 
@@ -398,7 +398,7 @@ class Table extends Component {
 export default Table
 ```
 
-今回作成した`Conponent`は、カスタムクラスの`Conponent`です。通常の`HTML要素`と区別するために、`カスタム Conponent`を大文字にしています。
+今回作成した`Component`は、カスタムクラスの`Component`です。通常の`HTML要素`と区別するために、`カスタム Component`を大文字にしています。
 
 `App.js`に戻って、まずテーブルをインポートしてロードし、`App`の`render()`で読み込みます。
 
@@ -423,13 +423,13 @@ export default App
 
 ブラウザでリロードするとテーブルが確認できます。
 
-これでカスタム`Class Component`が何であるかがわかりました。この`Conponent`を何度も再利用することができます。しかし、データが`Table.js`でハードコーディングされているのでアプリケーショととしては汎用性がない。
+これでカスタム`Class Component`が何であるかがわかりました。この`Component`を何度も再利用することができます。しかし、データが`Table.js`でハードコーディングされているのでアプリケーショととしては汎用性がない。
 
 ## __Function, Simple Component__
 
-Reactにおけるもう一つのタイプの`Conponent`は、関数である`Function, Simple Component`です。この`Conponent`は`classキーワード`を使用しません。ここでは、テーブルを取り上げて、`テーブルヘッダー`と`テーブルボディ`という2つのシンプルな`Conponent`を作成してみましょう。
+Reactにおけるもう一つのタイプの`Component`は、関数である`Function, Simple Component`です。この`Component`は`classキーワード`を使用しません。ここでは、テーブルを取り上げて、`テーブルヘッダー`と`テーブルボディ`という2つのシンプルな`Component`を作成してみましょう。
 
-これらのシンプルな`Conponent`を作成するために、ES6の矢印関数を使用します。まず、テーブルのヘッダーです。
+これらのシンプルな`Component`を作成するために、ES6の矢印関数を使用します。まず、テーブルのヘッダーです。
 
 __src/Table.js__
 
@@ -475,7 +475,7 @@ const TableBody = () => {
 }
 ```
 
-`TableHeader`と`TableBody Conponent`はすべて同じファイル内にあり、`Table Class Component`によって使用されていることに注目してください。
+`TableHeader`と`TableBody Component`はすべて同じファイル内にあり、`Table Class Component`によって使用されていることに注目してください。
 
 __src/Table.js__
 
@@ -495,11 +495,11 @@ class Table extends Component {
 }
 ```
 
-`Class Compornent`と同じように表示されるはずです。`Conponent`は他の`Conponent`を入れ子にすることができ、`Function, Simple Conponent`とクラスの`Conponent`を混在させることができます。
+`Class Compornent`と同じように表示されるはずです。`Component`は他の`Component`を入れ子にすることができ、`Function, Simple Component`とクラスの`Component`を混在させることができます。
 
 > `Class Component`には`render()`が含まれていなければならず、`戻り値`は`親要素を1つ`しか返すことができません。
 
-`Function, Simple Conponent`と`Class Component`の書式の違いを比較します。
+`Function, Simple Component`と`Class Component`の書式の違いを比較します。
 
 __Function, Simple Component__
 
@@ -524,11 +524,11 @@ class ClassComponent extends Component {
 
 ## __Props(小道具)__
 
-今、私たちはクールな`Table Conponent`を持っていますが、データはハードコーディングされています。
+今、私たちはクールな`Table Component`を持っていますが、データはハードコーディングされています。
 
 Reactの大きな特徴の一つは、データをどのように扱うかということで、`Props`と呼ばれる`property`(または、PARAMSという)と、`state`を使ってデータを扱います。ここでは、`Props`を使ったデータの扱い方に焦点を当ててみましょう。
 
-まず、`TableBody Conponent`からすべてのデータを削除してみましょう。
+まず、`TableBody Component`からすべてのデータを削除してみましょう。
 
 __src/Table.js__
 
@@ -573,7 +573,7 @@ class App extends Component {
 }
 ```
 
-ここでは、``property``を使って子`Conponent`(`Table`)にデータを渡すことにします。``property``は予約キーワードでない限り、好きなように呼び出すことができます。
+ここでは、``property``を使って子`Component`(`Table`)にデータを渡すことにします。``property``は予約キーワードでない限り、好きなように呼び出すことができます。
 
 この`property`(PARAMS、またはオブジェクトを含んだ配列)は中括弧で囲んでおき、`characterData`へ格納します。
 
@@ -616,7 +616,7 @@ class Table extends Component {
 const { characterData } = this.props
 ```
 
-`TableConponent``は実際には2つの小さな単純な`Conponent`で構成されているので、もう一度`props`を使って`TableBody`に渡します。
+`TableConponent``は実際には2つの小さな単純な`Component`で構成されているので、もう一度`props`を使って`TableBody`に渡します。
 
 __src/Table.js__
 
@@ -668,11 +668,11 @@ const TableBody = props => {
 
 各テーブルの行にキーインデックスを追加したことに気づくでしょう。Reactでリストを作成する際には、常に[keys](https://reactjs.org/docs/lists-and-keys.html#keys)を使用する必要があります。リスト項目を操作したいときに、これがどのように必要なのかを見てみましょう。
 
-プロップは既存のデータを`React Component`に渡すための効果的な方法ですが、`Conponent`はプロップを変更することができません。次のセクションでは、React でのデータ処理をさらに制御するためにstateを使用する方法を学びます。
+プロップは既存のデータを`React Component`に渡すための効果的な方法ですが、`Component`はプロップを変更することができません。次のセクションでは、React でのデータ処理をさらに制御するためにstateを使用する方法を学びます。
 
 ## __State__
 
-今のところ、文字データを変数の配列に格納し、それを`Props`として渡しています。これは良いことですが、配列からアイテムを削除できるようにしたい場合を想像してみてください。`props`では一方通行のデータフローですが、`state`では`Conponent`のプライベートデータを更新することができます。
+今のところ、文字データを変数の配列に格納し、それを`Props`として渡しています。これは良いことですが、配列からアイテムを削除できるようにしたい場合を想像してみてください。`props`では一方通行のデータフローですが、`state`では`Component`のプライベートデータを更新することができます。
 
 stateとは、必ずしもデータベースに追加されなくても、保存したり変更したりする必要のあるデータのことだと考えることができます。
 
@@ -749,7 +749,7 @@ removeCharacter = index => {
 
 `filter`は、新しい配列を作成し、JavaScriptで配列を変更する際に好まれるメソッドです。この`particularメソッド`は、あるインデックスと配列内のすべてのインデックスをテストし、渡されたインデックス以外のすべてを返します。
 
-次に、その関数を`Conponent`に渡し、関数を呼び出すことができる`各character`の横にボタンをレンダリングする必要があります。`removeCharacter関数`を`Table`に`props`として渡します。
+次に、その関数を`Component`に渡し、関数を呼び出すことができる`各character`の横にボタンをレンダリングする必要があります。`removeCharacter関数`を`Table`に`props`として渡します。
 
 __src/App.js__
 
@@ -767,7 +767,7 @@ render() {
 
 `Table`から`TableBody`に渡しているので、`characterData`の時と同じように、再び`props`として渡す必要があります。
 
-さらに、このプロジェクトでは独自の状態を持つ`Conponent`は`App`と`Form`だけであることが判明したので、`Table`を現在の`Class Component`から`Function, Simple Component`に変換するのが最善の方法でしょう。
+さらに、このプロジェクトでは独自の状態を持つ`Component`は`App`と`Form`だけであることが判明したので、`Table`を現在の`Class Component`から`Function, Simple Component`に変換するのが最善の方法でしょう。
 
 __src/Table.js__
 
@@ -784,7 +784,7 @@ const Table = props => {
 }
 ```
 
-ここで`removeCharacter()メソッド`で定義したインデックスが登場します。`TableBody Conponent`では、キーとインデックスをパラメータとして渡します。`onClick`を持つボタンを作成し渡します。
+ここで`removeCharacter()メソッド`で定義したインデックスが登場します。`TableBody Component`では、キーとインデックスをパラメータとして渡します。`onClick`を持つボタンを作成し渡します。
 
 __src/Table.js__
 
@@ -797,7 +797,7 @@ __src/Table.js__
   </td>
 </tr>
 ```
-> `onClick`関数は、`removeCharacter()`メソッドを返す関数を通過させる必要があり、そうでない場合は自動的に実行しようとします。
+> `onClick`関数は、`removeCharacter()メソッド`を返す関数を通過させる必要があり、そうでない場合は自動的に実行しようとします。
 
 これで削除ボタンができて、文字を削除することで状態を修正できるようになりました。驚きです。
 
@@ -818,7 +818,7 @@ class App extends Component {
 }
 ```
 
-それでは、Form.js という新しいファイルに Form `Conponent`を作成してみましょう。
+それでは、Form.js という新しいファイルに Form `Component`を作成してみましょう。
 
 フォームの初期状態を空の`property`を持つオブジェクトに設定し、その初期状態を`this.state`に代入します。
 
@@ -836,7 +836,7 @@ class Form extends Compornent {
 }
 ```
 
-> 以前はReactクラスの`Conponent`にconstructor()を含める必要がありましたが、今は不要になりました。
+> 以前はReactクラスの`Component`にconstructor()を含める必要がありましたが、今は不要になりました。
 
 このフォームの目標は、フォーム内のフィールドが変更されるたびにフォームの状態を更新し、送信時にはすべてのデータが`App`の状態に渡され、テーブルが更新されることです。
 
@@ -854,7 +854,7 @@ handleChange = event => {
 }
 ```
 
-フォームを送信する前にこの作業を行いましょう。レンダリングでは、stateから2つの`property`を取得し、適切なフォームのkeyに対応する値として割り当てましょう。入力の`onChange`として`handleChange()`メソッドを実行し、最後に`Form Conponent`をエクスポートします。
+フォームを送信する前にこの作業を行いましょう。レンダリングでは、stateから2つの`property`を取得し、適切なフォームのkeyに対応する値として割り当てましょう。入力の`onChange`として`handleChange()メソッド`を実行し、最後に`Form Component`をエクスポートします。
 
 __src/Form.js__
 
@@ -943,9 +943,9 @@ Reactの非常に一般的な使い方の1つは、APIからデータを取得�
 
 このURLエンドポイントからデータを収集して表示するために、[JavaScriptの組み込みFetch](https://www.taniarascia.com/how-to-use-the-javascript-fetch-api-to-get-json-data/)を使用します。`index.js`-`import App from './Api';`でURLを変更するだけで、先ほど作成したアプリとこのテストファイルを切り替えることができます。
 
-このコードについては、`Conponent`の作成、レンダリング、ステート配列を介したマッピングについては既に学習しているので、一行一行説明するつもりはありません。このコードの新たな側面は、Reactのライフサイクルメソッドである`componentDidMount()`です。ライフサイクルとは、Reactでメソッドが呼び出される順番のことです。マウントとは、アイテムがDOMに挿入されることを指します。
+このコードについては、`Component`の作成、レンダリング、ステート配列を介したマッピングについては既に学習しているので、一行一行説明するつもりはありません。このコードの新たな側面は、Reactのライフサイクルメソッドである`componentDidMount()`です。ライフサイクルとは、Reactでメソッドが呼び出される順番のことです。マウントとは、アイテムがDOMに挿入されることを指します。
 
-APIデータを取り込む際には、データを取り込む前に`Conponent`がDOMにレンダリングされたことを確認したいので、`componentDidMount`を使用したいと思います。以下のスニペットでは、Wikipedia APIからデータを取り込み、ページに表示する方法を見てみましょう。
+APIデータを取り込む際には、データを取り込む前に`Component`がDOMにレンダリングされたことを確認したいので、`componentDidMount`を使用したいと思います。以下のスニペットでは、Wikipedia APIからデータを取り込み、ページに表示する方法を見てみましょう。
 
 __Api.js__
 
