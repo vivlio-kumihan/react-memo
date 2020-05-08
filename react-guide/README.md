@@ -792,3 +792,70 @@ ReactDOM.render(
   document.getElementById("root")
 )
 ```
+
+### __クラスにライフサイクルメソッドを追加する__
+
+次に、`Clock`が自分でタイマーを設定し、毎秒ごとに自分を更新するようにします。
+
+多くのコンポーネントを有するアプリケーションでは、コンポーネントが破棄された場合にそのコンポーネントが占有していたリソースを開放することがとても重要です。
+
+タイマーを設定したいのは、最初に`Clock`が`DOM`として描画されるときです。このことをReactでは`マウント（mounting）`と呼びます。
+
+またタイマーをクリアしたいのは、`Clock`が生成した`DOM`が削除されるときです。このことをReactでは`アンマウント（unmounting）`と呼びます。
+
+コンポーネントクラスで特別なメソッドを宣言することで、コンポーネントがマウントしたりアンマウントしたりした際にコードを実行することができます。
+
+`componentDidMount()メソッド`は、出力が`DOM`にレンダーされた後に実行されます。ここがタイマーをセットアップするのによい場所です。
+
+タイマーの後片付けは`componentWillUnmount()`というライフサイクルメソッドで行います
+
+最後に、`Clockコンポーネント`が毎秒ごとに実行する`tick()メソッド`を実装します。
+
+コンポーネントの`ローカルstate`の更新をスケジュールするために`this.setState()`を使用します。
+
+```
+import React, { useReducer, Component } from 'react';
+import ReactDOM from 'react-dom';
+import './assets/css/index.css';
+
+class Clock extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = { date: new Date() }
+  }
+
+  componentDidMount() {
+    this.timerID = setInterval(
+      // 無名関数でtick()の初期化をしてるってこと。
+      () => this.tick(), 1000
+    )
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.timerID)
+
+  }
+
+  tick() {
+    // 状態を設定しなおしたよとClocこコンポーネントに宣言する。
+    this.setState({ date: new Date()})
+  }
+
+  render() {
+    return (<h1>{this.state.date.toLocaleTimeString()}</h1>)
+  }
+}
+
+ReactDOM.render(
+  <Clock />,
+  document.getElementById("root")
+)
+```
+
+何が起こったのかをメソッドが呼び出される順序にそって振り返ります。
+
+1. `<Clock />`が`ReactDOM.render()`に渡されると、Reactは`Clockコンポーネント`の`コンストラクタ`を呼び出します。`Clock`は現在時刻を表示する必要があるので、現在時刻を含んだオブジェクトで`this.state`を初期化します。あとでこの`state`を更新していきます。
+1. 次にReactは`Clockコンポーネント`の`render()メソッド`を呼び出します。これによりReactは画面に何を表示すべきか知ります。そののちに、Reactは`DOM`を`Clock`のレンダー出力と一致するように更新します。
+1. `Clock`の出力が`DOM`に挿入されると、Reactは`componentDidMount()ライフサイクルメソッド`を呼び出します。その中で、`Clockコンポーネント`は毎秒ごとにコンポーネントの`tick()メソッド`を呼び出すためにタイマーを設定するようブラウザに要求します。
+1. ブラウザは、毎秒ごとに`tick()メソッド`を呼び出します。その中で`Clockコンポーネント`は、現在時刻を含んだオブジェクトを引数として`setState()`を呼び出すことで、`UI`の更新をスケジュールします。`setState()`が呼び出されたおかげで、Reactは`state`が変わったということが分かるので、`render()メソッド`を再度呼び出して、画面上に何を表示すべきかを知ります。今回は、`render()メソッド内`の`this.state.date`が異なっているので、レンダリングされる出力には新しく更新された時間が含まれています。それに従ってReactは`DOM`を更新します。
+1. この後に`Clockコンポーネント`が`DOM`から削除されることがあれば、Reactは`componentWillUnmount()ライフサイクルメソッド`を呼び出し、これによりタイマーが停止します。
