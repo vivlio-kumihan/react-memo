@@ -1,6 +1,10 @@
-import React from 'react'
-import ReactDOM from 'react-dom'
-import App from './App'
-import './index.css'
+import React from "react"
+import ReactDOM from "react-dom"
+import Main from "./Main"
+import "./assets/css/index.css"
+import "./assets/css/custom.css"
 
-ReactDOM.render(<App />, document.getElementById('root'))
+ReactDOM.render(
+  <Main />,
+  document.getElementById("root")
+)
