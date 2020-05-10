@@ -1,45 +1,23 @@
 import React, {Component} from "react"
 import Table from "./Table"
 
-// 関数パターン
-
-class Main extends Component {
-  render() {
-    return (
-      <Full_name />
-    )
-  }
-}
-
-const obj = {
-  first: "John",
-  last: "Lennon"
-}
-  
-const Full_name = () => {
-  return (
-    <h1>{obj.first} {obj.last}</h1>
-  )
-}
-
 // Function Componentパターン
 
+const obj = [
+  { name: "信之", age: 55 },
+  { name: "和恵", age: 48 }
+]
+
+// MainComponentで設定したObjectを『Object』と言う変数に格納してTableComponentへ渡す。
 class Main extends Component {
   render() {
-    const obj = {
-      first: "Paul",
-      last: "McCartney"
-    }
     return (
-      <Full_name name={obj}/>
+      <div id="container">
+        <h1>profile list</h1>
+        <Table object={obj} />
+      </div>
     )
   }
-}
-
-const Full_name = (props) => {
-  return (
-    <h1>{props.name.first} {props.name.last}</h1>
-  )
 }
 
 export default Main

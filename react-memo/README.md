@@ -1057,7 +1057,6 @@ const Full_name = (props) => {
 
 TableComponentを作成し適宜データを載せる。MainComponentに差し込んむ。そして、indexComponentから出力する。
 
-
 ```
 // Main.js
 
@@ -1108,10 +1107,16 @@ class Table extends Component {
 
 ## 03
 
+テーブルの値をオブジェクトとして分離しmapして供給するような仕様に変更させなさい。オブジェクトデータはMainComponentへ移動すること。
+
+propsの渡し方がポイント。
+
 ```
+// main.js
+
 class Main extends Component {
   render() {
-    const object = [
+    const obj = [
       {
         name: "信之",
         age: 55,
@@ -1124,33 +1129,34 @@ class Main extends Component {
       }
     ]
     return (
-      // 指定したprops名『profiles』が大事。
+      // 指定したprops名『object』が大事。
       // 名前をそのままhandlingする。
       <div id="container">
         <h1>Profile List</h1>
-        <Table profiles={object} />
+        <Table object={obj} />
       </div>
     )
   }
 }
 ```
 
-## 03
+```
+// Table.js
 
-  ```
 // Componentは、他所のComponentで継ぎ足された(渡された)propsを感知する。
+// ここでは、MainComponentからの『Object』をTableComponentで使えるpropへと変換して渡す。
 class Table extends Component {
   render() {
     // handlingするpropsを変数に格納する場合、
     // ES6 propertyの略記法に従い{}で包む。
     // そして、それをJSXで展開する。
-    // なお、Mainで指定したprops名『profiles』が大事。
+    // なお、Mainで指定したprops名『object』が大事。
     // ここが肝
-    const {profiles} = this.props
+    const {object} = this.props
     return (
       <table>
         <TableHeader />
-        <TableBody obj={profiles}/>
+        <TableBody profile={object}/>
       </table>
     )
   }
@@ -1167,10 +1173,11 @@ const TableHeader = () => {
   )
 }
 
+// 配列やオブジェクトを展開してレンダリングする方法。
 // 引数がpropsの無名関数を格納する。
 // <tr>タグのkey={index}は付けなくても問題ない。
 const TableBody = (props) => {
-  const rows = props.obj.map((row, index) => {
+  const rows = props.profile.map((row, index) => {
     return (
       <tr key={index}>
         <td>{row.name}</td>
