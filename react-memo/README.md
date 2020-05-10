@@ -989,8 +989,24 @@ export default App
 
 # 練習
 
+## 00
+
+変数`full_name`に`"John Lennon"`を代入して出力させなさい。
+
+```
+class Main extends Component {
+  render() {
+    const full_name = "John Lennon"
+    return (
+      <h1>{full_name}</h1>
+    )
+  }
+}
+```
 
 ## 01
+
+オブジェクト`full_name`に氏と名前を設定し、関数`FormatName`を通して氏名を生成して出力させなさい。
 
 ```
 class App extends Component {
