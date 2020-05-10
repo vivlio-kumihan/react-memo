@@ -1055,7 +1055,7 @@ const Full_name = (props) => {
 
 ## 02
 
-TableComponentを作成し適宜データを載せる。MainComponentに差し込んで出力する。
+TableComponentを作成し適宜データを載せる。MainComponentに差し込んむ。そして、indexComponentから出力する。
 
 
 ```
