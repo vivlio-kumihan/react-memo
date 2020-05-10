@@ -1009,22 +1009,47 @@ class Main extends Component {
 オブジェクト`full_name`に氏と名前を設定し、関数`FormatName`を通して氏名を生成して出力させなさい。
 
 ```
-class App extends Component {
+// 関数パターン
+
+class Main extends Component {
   render() {
     return (
-      <h1>Hello, <FormatName /></h1>
-      /* <h1>Hello, {FormatName()}</h1> */
+      <Full_name />
     )
   }
 }
 
-const FormatName = () => {
-  return `${full_name.first} ${full_name.last}`
-}
-
-const full_name = {
+const obj = {
   first: "John",
   last: "Lennon"
+}
+  
+const Full_name = () => {
+  return (
+    <h1>{obj.first} {obj.last}</h1>
+  )
+}
+```
+
+```
+// Function Componentパターン
+
+class Main extends Component {
+  render() {
+    const obj = {
+      first: "Paul",
+      last: "McCartney"
+    }
+    return (
+      <Full_name name={obj}/>
+    )
+  }
+}
+
+const Full_name = (props) => {
+  return (
+    <h1>{props.name.first} {props.name.last}</h1>
+  )
 }
 ```
 
