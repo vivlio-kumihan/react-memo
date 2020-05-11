@@ -1112,7 +1112,7 @@ class Table extends Component {
 
 propsの渡し方がポイント。
 
-`props`で指定した変数名が`TableComponent`へ渡すので、その名称`『profile』`とこちらの`MainComponent`で生成したオブジェクト名の設定を変えても、コードは動くがメンテナンスのことを考慮して、`props`でhandlingする__変数名は統一とする__。
+`props`で指定した変数名が`TableComponent`へ渡すので、その名称`『profile』`とこちらの`MainComponent`で生成したオブジェクト名の設定を変えても、コードは動くがメンテナンスのことを考慮して、`props`でhandlingする __変数名は統一とする__ 。
 
 ```
 // main.js
@@ -1197,74 +1197,99 @@ const TableBody = (props) => {
 ## 04
 
 ```
-class Main extends Component {
-  state = [
-    {
-      name: "信之",
-      age: 55,
-    }, {
-      name: "和恵",
-      age: 48,
-    }, {
-      name: "茉李",
-      age: 23,
-    }
-  ]
+// Main.js
 
-  removeProfile = (index) => {
-    const {objects} = this.state
-    this.setState({
-      objects: objects.filter((object, i) => {
+import React, {Component} from "react"
+import Table from "./Table"
+
+class Main extends Component {
+  // 状態（state）にprops（property）を付けて生成する。
+  state = {
+    profile: 
+      [
+        {
+          name: "Nobuyuki",
+          age: 55
+        },
+        {
+          name: "Kazue",
+          age: 48
+        },
+        {
+          name: "Mari",
+          age: 23
+        },
+      ]
+  }
+
+  // メソッド定義　propertyを削除用
+  // classの中でメソッド定義は、constを付けなくてもいいよう。
+  // Ruby的でいい。
+  // 『index』はキーワードではない。ハンドリングを考慮し、
+  // TableComponentで付与し、
+  // MainComponentへ送り出した変数名に従っているだけ。
+  removePerson = (index) => {
+    // stateはプライベートみたいだ。
+    // 必要なその場その場でインスタンス化（props化）している。
+    const {profile} = this.state.profile
+    // propertyを削除する理屈が解ってない。なんでDeleteできるの？
+    this.setState ({
+      profile: profile.filter((p, i) => {
         return i !== index
       })
     })
   }
 
   render() {
-    const {objects} = this.state
+    const {profile} = this.state
     return (
-      <div id="container">
-        <h1>Profile List</h1>
-        <Table 
-          profiles={objects}
-          removeProfile={this.removeProfile} />
-      </div>
+      <Table profile={profile} removePerson={this.removePerson}/>
     )
   }
 }
-```
-## 04
 
-  ```
-class Table extends Component {
-  render() {
-    const {profiles} = this.props
-    return (
-      <table>
-        <TableHeader />
-        <TableBody obj={profiles}/>
-      </table>
-    )
-  }
+export default Main
+```
+
+```
+// Table.js
+
+import React, {Component} from "react"
+
+const Table = (props) => {
+  const {profile, removePerson} = props
+  return (
+    <table>
+      <TableHeader />
+      <TableBody  profile={profile}
+                  removePerson={removePerson} />
+    </table>
+  )
 }
 
 const TableHeader = () => {
   return (
     <thead>
       <tr>
-        <th>name</th>
-        <th>age</th>
+        <th>Name</th>
+        <th>Age</th>
+        <th>Delete</th>
       </tr>
     </thead>
   )
 }
 
+// buttonタグの箇所、propsを代入している。
+// ここで無名関数を展開できる！　素敵だ。
 const TableBody = (props) => {
-  const rows = props.obj.map((row, index) => {
+  const rows = props.profile.map((row, index) => {
     return (
-      <tr>
+      <tr key={index}>
         <td>{row.name}</td>
         <td>{row.age}</td>
+        <td>
+          <button onClick={() => props.removePerson(index)}>Delete</button>
+        </td>
       </tr>
     )
   })
@@ -1272,4 +1297,6 @@ const TableBody = (props) => {
     <tbody>{rows}</tbody>
   )
 }
+
+export default Table
 ```
