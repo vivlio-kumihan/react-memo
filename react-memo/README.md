@@ -1010,47 +1010,48 @@ class Main extends Component {
 
 ```
 // 関数パターン
+// ローカル変数を読んで展開するパターン
+// ClassComponent, FunctionCopmonentを使う意味があまりない。
 
 class Main extends Component {
   render() {
     return (
-      <Full_name />
-    )
+      <FullName />
+      )
+    }
   }
-}
-
-const obj = {
+  
+const name = {
   first: "John",
   last: "Lennon"
 }
-  
-const Full_name = () => {
-  return (
-    <h1>{obj.first} {obj.last}</h1>
-  )
+const FullName = () => {
+  return <h1>{name.first} {name.last}</h1>
 }
 ```
 
 ```
-// Function Componentパターン
+// Class + Function Componentパターン
 
+// FunctionComponentをClassComponentに挿して使うのであればこの方法。
+// 肝は、render()内で変数を設定していること。
+// 他所のComponentからpropsを持ってこれるから！
 class Main extends Component {
   render() {
-    const obj = {
-      first: "Paul",
-      last: "McCartney"
+    const name = {
+      first: "John",
+      last: "Lennon"
     }
     return (
-      <Full_name name={obj}/>
+      <FullName name={name} />
     )
   }
 }
 
-const Full_name = (props) => {
-  return (
-    <h1>{props.name.first} {props.name.last}</h1>
-  )
+const FullName = (props) => {
+  return <h1>{props.name.first} {props.name.last}</h1>
 }
+
 ```
 
 ## 02
