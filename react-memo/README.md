@@ -1112,52 +1112,56 @@ class Table extends Component {
 
 propsの渡し方がポイント。
 
+`props`で指定した変数名が`TableComponent`へ渡すので、その名称`『profile』`とこちらの`MainComponent`で生成したオブジェクト名の設定を変えても、コードは動くがメンテナンスのことを考慮して、`props`でhandlingする__変数名は統一とする__。
+
 ```
 // main.js
 
+import React, {Component} from "react"
+import Table from "./Table"
+
 class Main extends Component {
   render() {
-    const obj = [
+    const profile = [
       {
-        name: "信之",
-        age: 55,
-      }, {
-        name: "和恵",
-        age: 48,
-      }, {
-        name: "茉李",
-        age: 23,
-      }
+        name: "Nobuyuki",
+        age: 55
+      },
+      {
+        name: "Kazue",
+        age: 48
+      },
+      {
+        name: "Mari",
+        age: 23
+      },
     ]
     return (
-      // 指定したprops名『object』が大事。
-      // 名前をそのままhandlingする。
-      <div id="container">
-        <h1>Profile List</h1>
-        <Table object={obj} />
-      </div>
+      <Table profile={profile} />
     )
   }
 }
+
+export default Main
 ```
 
 ```
 // Table.js
 
 // Componentは、他所のComponentで継ぎ足された(渡された)propsを感知する。
-// ここでは、MainComponentからの『Object』をTableComponentで使えるpropへと変換して渡す。
+// ここでは、MainComponentからの『profile』をTableComponentで使えるpropへと変換して渡す。
 class Table extends Component {
   render() {
     // handlingするpropsを変数に格納する場合、
     // ES6 propertyの略記法に従い{}で包む。
     // そして、それをJSXで展開する。
-    // なお、Mainで指定したprops名『object』が大事。
+    // なお、Mainで指定したprops名『profile』が大事。
     // ここが肝
-    const {object} = this.props
+    const {profile} = this.props
     return (
       <table>
         <TableHeader />
-        <TableBody profile={object}/>
+        <TableBody profile={profile}/>
       </table>
     )
   }
@@ -1191,7 +1195,6 @@ const TableBody = (props) => {
 ```
 
 ## 04
-
 
 ```
 class Main extends Component {

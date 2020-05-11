@@ -4,7 +4,11 @@ import Main from "./Main"
 import "./assets/css/index.css"
 import "./assets/css/custom.css"
 
+const element = (
+  <div id="container"><Main /></div>
+)
+
 ReactDOM.render(
-  <Main />,
+  element,
   document.getElementById("root")
 )
