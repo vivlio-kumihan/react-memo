@@ -918,7 +918,7 @@ handleSubmit = character => {
 
 フォームの中に `submitForm()` というメソッドを作成して、この関数を呼び出し、先ほど定義した`characterパラメータ`としてフォームの状態を渡します。また、フォームの状態を初期状態にリセットし、送信後にフォームをクリアします。
 
-__src/Form.js__e
+__src/Form.js__
 
 ```
 submitForm = () => {
@@ -1122,6 +1122,7 @@ import Table from "./Table"
 
 class Main extends Component {
   render() {
+    // 変数はrender()の中!!!!!
     const profile = [
       {
         name: "Nobuyuki",
@@ -1204,22 +1205,24 @@ import Table from "./Table"
 
 class Main extends Component {
   // 状態（state）にprops（property）を付けて生成する。
+  // stateはrender()の外!!!!!
+  // 関数定義もrender()の外!!!!!
+
   state = {
-    profile: 
-      [
-        {
-          name: "Nobuyuki",
-          age: 55
-        },
-        {
-          name: "Kazue",
-          age: 48
-        },
-        {
-          name: "Mari",
-          age: 23
-        },
-      ]
+    profile: [
+      {
+        name: "Nobuyuki",
+        age: 55
+      },
+      {
+        name: "Kazue",
+        age: 48
+      },
+      {
+        name: "Mari",
+        age: 23
+      },
+    ]
   }
 
   // メソッド定義　propertyを削除用
@@ -1231,7 +1234,7 @@ class Main extends Component {
   removePerson = (index) => {
     // stateはプライベートみたいだ。
     // 必要なその場その場でインスタンス化（props化）している。
-    const {profile} = this.state.profile
+    const {profile} = this.state
     // propertyを削除する理屈が解ってない。なんでDeleteできるの？
     this.setState ({
       profile: profile.filter((p, i) => {
@@ -1254,7 +1257,7 @@ export default Main
 ```
 // Table.js
 
-import React, {Component} from "react"
+import React from "react"
 
 const Table = (props) => {
   const {profile, removePerson} = props
@@ -1281,6 +1284,9 @@ const TableHeader = () => {
 
 // buttonタグの箇所、propsを代入している。
 // ここで無名関数を展開できる！　素敵だ。
+// buttonのonClick propertyにpropsを渡す
+// 内容は、この<tr>タグに紐づいたindexを引数として
+// removePerson関数を発動しろというもの。
 const TableBody = (props) => {
   const rows = props.profile.map((row, index) => {
     return (
