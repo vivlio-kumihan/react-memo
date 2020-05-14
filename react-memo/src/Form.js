@@ -3,39 +3,43 @@ import React, { Component } from 'react'
 class Form extends Component {
   // constructorを宣言する必要はなくなったそう。
   // まずは、フォームのparamsを設定する。
-  initalState = {
+  initialState = {
     name: "",
     job: "",
     age: "",
   }
   // このComponentの中でstateを持つわけだ。stateってそういうものなのだね。
-  state = this.initalState
+  state = this.initialState
 
-  // 変更をとり扱う。
-  // 入力した際に、value propertyは『initalState』を参照している。
+  // 編集（新規入力）をとり扱う関数。
+  // 入力した際に、value propertyは『initialState』を参照している。
+  // 『const { name, value } = event.target』の変数名は絶対にこれでないと
+  // 動かない。注意！
   handleChange = (event) => {
-    const {name, value} = event.target
-    this.setState({
-      [name]: value,
-    })
+    const { name, value } = event.target
+    this.setState({ [name]: value })
   }
 
   // 送信をする関数
   submitForm = () => {
+    // 『Main.js』で設定した関数へ向けて値が飛んでいく。
     this.props.handleSubmit(this.state)
-    this.setState(this.initalState)
+    // 入力フォームを初期化する。
+    this.setState(this.initialState)
   }
 
   render() {
-    const {name, job} = this.state
+    const {name, job, age} = this.state
     return (
+      // handleChange関数で生成した変数にinputされる値が代入されるイメージ。
+      // 『type』『id』はおまけ。
       <form>
         <label htmlFor="name">Name</label>
-        <input type="text" name="name" id="name" value={name} onChange={this.handleChange} />
+        <input name="name" value={name} onChange={this.handleChange} type="text" id="name"/>
         <label htmlFor="job">Job</label>
-        <input type="text" name="job" id="job" value={job} onChange={this.handleChange} />
+        <input name="job" value={job} onChange={this.handleChange}　 type="text" id="job"/>
         <label htmlFor="age">Age</label>
-        <input type="text" name="age" id="age" value={age} onChange={this.handleChange} />
+        <input name="age" value={age} onChange={this.handleChange} type="text" id="age"　/>
         <input type="button" value="Submit" onClick={this.submitForm} />
       </form>
     )
@@ -43,50 +47,3 @@ class Form extends Component {
 }
 
 export default Form
-
-// class Form extends Component {
-//   // 初期化
-//   initialState = {
-//     name: '',
-//     job: '',
-//   }
-//   state = this.initialState
-//   // 状態をstateさせる
-//   handleChange = (event) => {
-//     const { name, value } = event.target
-
-//     this.setState({
-//       [name]: value,
-//     })
-//   }
-//   submitForm = () => {
-//     this.props.handleSubmit(this.state) 
-//     this.setState(this.initialState) 
-//   }
-
-//   render() {
-//     const { name, job } = this.state;
-//     return (
-//       <form>
-//         <label htmlFor="name">Name</label>
-//         <input
-//           type="text"
-//           name="name"
-//           id="name"
-//           value={name}
-//           onChange={this.handleChange} />
-//         <label htmlFor="job">Job</label>
-//         <input
-//           type="text"
-//           name="job"
-//           id="job"
-//           value={job}
-//           onChange={this.handleChange} />
-//         <input
-//           type="button"
-//           value="Submit"
-//           onClick={this.submitForm} />
-//       </form>
-//     )
-//   }
-// }

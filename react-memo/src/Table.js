@@ -1,11 +1,11 @@
 import React from "react"
 
 const Table = (props) => {
-  const {user, removeMember} = props
+  const {user, removeUser} = props
   return (
     <table>
       <TableHeader />
-      <TableBody user={user} removeMember={removeMember} />
+      <TableBody user={user} removeUser={removeUser} />
     </table>
   )
 }
@@ -31,7 +31,7 @@ const TableBody = (props) => {
       <td> {row.job} </td>
       <td> {row.age} </td>
       <td>
-        <button onClick={() => props.removeMember(index)}>Delete</button>
+        <button onClick={() => props.removeUser(index)}>Delete</button>
       </td>
       </tr>
     )
