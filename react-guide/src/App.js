@@ -1,10 +1,10 @@
 import React, { Component } from "react"
-import Name from "./Name"
+import Form from "./Form"
 
 class App extends Component {
   render() {
     return (
-      <Name />
+      <Form />
     )
   }
 }

@@ -1,0 +1,24 @@
+@import url("https://fonts.googleapis.com/css2?family=M+PLUS+1p:wght@100;300;400;500;700;800;900&family=M+PLUS+Rounded+1c:wght@100;300;400;500;700;800;900&family=Noto+Sans+JP:wght@100;300;400;500;700;900&family=Noto+Serif+JP:wght@200;300;400;500;600;700;900&?family=Pacifico&display=swap");
+
+body {
+  width: 50%;
+  margin: 0px auto;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+h1, h2, h3, h4, h5, h6, div, p, a, li {
+  font-family: 'M PLUS Rounded 1c', sans-serif;
+  /* 
+  font-family: 'Noto Sans JP', sans-serif;
+  font-family: 'Noto Serif JP', serif;
+  font-family: 'M PLUS 1p', sans-serif;
+  font-family: 'M PLUS Rounded 1c', sans-serif;
+  font-family: 'Pacifico', cursive;
+  */
+  font-weight: 900;
+  color: rgba(40, 35, 35, 0.6);
+}
