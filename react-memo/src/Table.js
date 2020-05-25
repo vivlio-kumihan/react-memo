@@ -16,30 +16,29 @@ const TableHeader = () => {
       <tr>
         <th>Name</th>
         <th>Job</th>
-        <th>Age</th>
-        <th>Delete</th>
       </tr>
     </thead>
   )
 }
 
 const TableBody = (props) => {
-  const rows = props.user.map((row, index) => {
+  const rows = props.user.map((u, index) => {
     return (
-      <tr key={index}>
-      <td> {row.name} </td>
-      <td> {row.job} </td>
-      <td> {row.age} </td>
-      <td>
-        <button onClick={() => props.removeUser(index)}>Delete</button>
-      </td>
+      <tr>
+        <td>{u.name}</td>
+        <td>{u.job}</td>
+        <td>
+          <button onClick={() => props.removeUser(index)}>delete</button>
+        </td>
       </tr>
     )
   })
-  return <tbody>{rows}</tbody>
+  return (
+    <tbody>{rows}</tbody>
+  )
 }
-export default Table
 
+export default Table
 
 // import React, {Component} from "react"
 
